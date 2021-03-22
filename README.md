@@ -8,97 +8,30 @@ npm start
 ### build ###
 npm install
 
+-------------------------------------------
+### Gerar o build do docker ###
+docker build -t didox/validador-cpf-nodejs-turma-devops -f Dockerfile .
 
-# porta externa: 3000 
-# porta interna da app : 3000
+### Rodar imagem docker e gravar localmente ###
+docker run -d -p 3000:3000 --name validador-cpf-nodejs-turma-devops didox/validador-cpf-nodejs-turma-devops
+### Rodar imagem docker em modo iterativo localmente ###
+docker run -it -p 3000:3000 --name validador-cpf-nodejs-turma-devops didox/validador-cpf-nodejs-turma-devops
 
-docker build -t didox/nodejs-image -f Dockerfile .
-docker run -d -p 3000:3000 --name nodejs-image didox/nodejs-image
-docker ps
+### Para parar o seriviço rodar ###
+docker stop validador-cpf-nodejs-turma-devops
 
-docker start nodejs-image
+### Para startar o seriviço rodar ###
+docker start validador-cpf-nodejs-turma-devops
 
-docker rm nodejs-image
-docker start nodejs-image
-docker stop nodejs-image
+### Para remover o seriviço rodar ###
+docker rm validador-cpf-nodejs-turma-devops
 
-
-#### publicar imagem docker em meu HUB ####
+### Para fazer login no dockerhub ###
 docker login
-docker tag didox/nodejs-image hub.docker.com/r/didox/nodejs-image
-docker push didox/nodejs-image
 
+### Criar a tag apontando para o repositório do docker hub ###
+docker tag didox/validador-cpf-nodejs-turma-devops hub.docker.com/r/didox/validador-cpf-nodejs-turma-devops
 
-
-#### Caso querira rodar docker em modo debugger ####
-docker run -it --rm -p 3000:3000 --name nodejs-image nodejs-image
-
-
-
-
-
-
-
-
-
-
-
-::::::::: CONSOLE APP :::::::::::
-
-https://docs.microsoft.com/pt-br/dotnet/core/docker/build-container?tabs=windows
-
-
-dotnet publish -c Release
-
-
--- Dockerfile conteúdo --
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
-COPY bin/Release/netcoreapp3.1/publish/ App/
-WORKDIR /App
-ENTRYPOINT ["dotnet", "NetCore.Docker.dll"]
-
-docker build -t counter-image -f Dockerfile .
-
-docker images
-
--- para remover imagem -- 
-docker rmi counter-image
-
-docker create --name dotnet-console-container counter-image
-
-docker ps -a
-
-docker rm dotnet-console-container
-
-docker start dotnet-console-container
-
-docker attach --sig-proxy=false dotnet-console-container
-
-docker stop dotnet-console-container
-
-docker ps
-
-
-:::::::::: WEB MVC :::::::::
-
-https://docs.docker.com/engine/examples/dotnetcore/
-
-dotnet new mvc
-arquivo Dockerfile
-docker build .
-
-docker build -t aspnetapp .
-docker run -d -p 8080:80 --name myapp aspnetapp
-docker ps
-
-docker start aspnetapp
-
-
-
-:::::: Usando docker ::::::
-
-cd dotnet-docker/samples/aspnetapp
-
-docker build -t aspnetapp .
-docker run -it --rm -p 5000:80 --name aspnetcore_sample aspnetapp
-
+### Fazer o push da imagem para a docker hub ###
+docker push didox/validador-cpf-nodejs-turma-devops
+-------------------------------------------
